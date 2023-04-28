@@ -24,7 +24,7 @@ export const ContactsList = () => {
   };
 
   const displayContacts =
-    filteredContacts.length > 0 ? filteredContacts : contacts;
+    filteredContacts?.length > 0 ? filteredContacts : contacts;
 
   return (
     <div>
