@@ -7,7 +7,7 @@ export const ContactsList = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const contacts = useSelector(state => state.contacts);
-  const filteredContacts = useSelector(state => state.filterContacts);
+  const filteredContacts = useSelector(state => state.filteredContacts);
   const dispatch = useDispatch();
 
   const handleContactDelete = contactId => {
@@ -16,15 +16,14 @@ export const ContactsList = () => {
 
   const handleFiltering = e => {
     const currentSearchTerm = e.target.value.toLowerCase();
-    const filteredContacts = contacts.filter(contact =>
+    const getFilteredContacts = contacts.filter(contact =>
       contact.name.toLowerCase().includes(currentSearchTerm)
     );
     setSearchTerm(currentSearchTerm);
-    dispatch(filterContacts(filteredContacts));
+    dispatch(filterContacts(getFilteredContacts));
   };
 
-  const displayContacts =
-    filteredContacts?.length > 0 ? filteredContacts : contacts;
+  const displayContacts = searchTerm.length > 0 ? filteredContacts : contacts;
 
   return (
     <div>
