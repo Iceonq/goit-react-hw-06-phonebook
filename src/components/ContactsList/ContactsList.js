@@ -2,12 +2,13 @@ import { useSelector } from 'react-redux';
 import { deleteContact, filterContacts } from 'redux/actions';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
+import { contactsSelector, filterSelector } from 'redux/selectors';
 
 export const ContactsList = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
-  const contacts = useSelector(state => state.contacts);
-  const filteredContacts = useSelector(state => state.filteredContacts);
+  const contacts = useSelector(contactsSelector);
+  const filter = useSelector(filterSelector);
   const dispatch = useDispatch();
 
   const handleContactDelete = contactId => {
@@ -15,15 +16,14 @@ export const ContactsList = () => {
   };
 
   const handleFiltering = e => {
-    const currentSearchTerm = e.target.value.toLowerCase();
-    const getFilteredContacts = contacts.filter(contact =>
-      contact.name.toLowerCase().includes(currentSearchTerm)
-    );
+    const currentSearchTerm = e.target.value;
     setSearchTerm(currentSearchTerm);
-    dispatch(filterContacts(getFilteredContacts));
+    dispatch(filterContacts(currentSearchTerm));
   };
 
-  const displayContacts = searchTerm.length > 0 ? filteredContacts : contacts;
+  const displayContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(filter)
+  );
 
   return (
     <div>
